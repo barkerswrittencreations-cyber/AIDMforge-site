@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Arden Forge — AI Dungeon Master Prompt System | Modular RPG Engine for ChatGPT</title>
+  <meta name="description" content="Build persistent AI‑run RPGs with a modular prompt architecture: Engine Prompt + Auxiliary World Files + Save/Load chain. The Arden Forge framework keeps tone, lore, and NPCs consistent across sessions." />
+  <meta name="keywords" content="AI Dungeon Master, AI DM, ChatGPT DM Prompt, AI RPG Engine, AI Roleplay System, AI Worldbuilding, Lorebook, Save Game Prompt, Modular Prompt Architecture" />
+  <meta property="og:title" content="Arden Forge — AI Dungeon Master Prompt System" />
+  <meta property="og:description" content="Engine Prompt + Auxiliary World Files + Save/Load. A modular ChatGPT RPG framework for persistent, system‑driven campaigns." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/og-banner.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/favicon.ico" />
+  <style>
+    :root {
+      --bg: #0b0f14; --panel: #0f1520; --card: #111827; --ink:#e6eef6; --muted:#9fb0c2; --accent:#7bdcff; --accent2:#b39cff; --ok:#6efacc; --warn:#ffd479;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;line-height:1.6;color:var(--ink);background:radial-gradient(1200px 800px at 80% -10%, rgba(123,220,255,.08), transparent),var(--bg)}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:1120px;margin:0 auto;padding:20px}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:8px 0 6px}
+    .brand{display:flex;gap:10px;align-items:center}
+    .brand .logo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 8px 22px rgba(123,220,255,.25)}
+    .brand h1{margin:0;font-size:18px;letter-spacing:.2px}
+    .tag{color:var(--muted);font-size:12px;margin-top:-2px}
+    .button{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0b0f14;font-weight:800;padding:12px 16px;border-radius:12px;box-shadow:0 10px 28px rgba(123,220,255,.20);transition:transform .06s ease}
+    .button:hover{transform:translateY(-1px);text-decoration:none}
+    .hero{display:grid;grid-template-columns:1.15fr 1fr;gap:28px;align-items:center;padding:28px 0 10px}
+    .h1{font-size:clamp(30px,4vw,52px);line-height:1.1;margin:6px 0 10px;font-weight:900}
+    .sub{color:var(--muted);font-size:18px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.00));border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:18px}
+    .code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;background:#0a0e14;color:#cfe9ff;padding:14px 16px;border-radius:12px;overflow:auto;border:1px solid rgba(255,255,255,.05)}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    .h2{font-size:24px;font-weight:800;margin:6px 0 6px}
+    .h3{font-size:16px;font-weight:800;margin:8px 0 2px;color:#d9ecff}
+    .muted{color:var(--muted)}
+    .kbd{padding:2px 7px;border:1px solid rgba(255,255,255,.12);border-bottom-width:2px;border-radius:6px;background:#0b121b;font-size:12px}
+    .footer{color:var(--muted);font-size:13px;padding:24px 0 12px;text-align:center}
+    .hr{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);border:none;margin:24px 0}
+    .note{border-left:3px solid var(--accent);padding:10px 12px;background:#0c131d;border-radius:8px}
+    .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.10);padding:6px 10px;border-radius:999px;background:#0b121b;font-size:12px;color:var(--muted)}
+    .check{display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--ok)}
+    .warn{display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--warn)}
+    .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}
+    .list{margin:0;padding-left:18px}
+    .svgbox{background:#0b121b;border:1px solid rgba(255,255,255,.08);padding:14px;border-radius:12px}
+    @media (max-width: 900px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
+  </style>
+  <script type='application/ld+json'>{
+    "@context":"https://schema.org","@type":"SoftwareApplication","name":"AIDM Forge — AI Dungeon Master Prompt System","applicationCategory":"DeveloperApplication","operatingSystem":"Web","description":"A modular prompt architecture for ChatGPT that runs persistent AI RPG campaigns using an Engine Prompt, Auxiliary World Files, and a Save/Load chain.","author":{"@type":"Person","name":"Stephan"}}
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Arden Forge</h1>
+          <div class="tag">AI Dungeon Master Prompt System</div>
+        </div>
+      </div>
+      <div class="cta-row">
+        <a class="button" href="#starter">Download Starter Kit</a>
+        <a class="button" href="#contact" style="background:linear-gradient(135deg,var(--accent2),var(--accent))">Work With Me</a>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div>
+        <div class="pill"><span class="check"></span> Engine + Auxiliary + Save/Load</div>
+        <h2 class="h1">Build persistent AI‑run RPGs.<br/>No drift. No forgetfulness.</h2>
+        <p class="sub">Arden Forge is a modular ChatGPT RPG framework: the <strong>Engine Prompt</strong> enforces logic and tone, <strong>Auxiliary World Files</strong> lock canon (nations, factions, lore), and a <strong>Save/Load</strong> chain guarantees continuity across sessions.</p>
+        <div class="cta-row">
+          <a class="button" href="#how">How It Works</a>
+          <a class="button" href="#docs" style="background:linear-gradient(135deg,var(--accent2),var(--accent))">Read the Docs</a>
+        </div>
+        <p class="muted" style="margin-top:8px">SEO keywords: AI Dungeon Master • ChatGPT DM Prompt • AI RPG Engine • AI Worldbuilding • Save Game Prompt</p>
+      </div>
+      <div class="card svgbox" aria-label="Engine ⇄ Auxiliary ⇄ Save diagram">
+        <!-- Inline SVG: Engine ↔ Aux ↔ Save pipeline -->
+        <svg viewBox="0 0 680 360" width="100%" height="auto" role="img" aria-label="Pipeline diagram">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0%" stop-color="#7bdcff"/>
+              <stop offset="100%" stop-color="#b39cff"/>
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="680" height="360" rx="14" fill="#0a0e14"/>
+          <g transform="translate(40,40)">
+            <rect x="0" y="0" width="180" height="110" rx="12" fill="#101621" stroke="url(#g1)"/>
+            <text x="90" y="30" fill="#cfe9ff" text-anchor="middle" font-family="Inter" font-size="16" font-weight="700">ENGINE PROMPT</text>
+            <text x="90" y="56" fill="#9fb0c2" text-anchor="middle" font-size="12">Rules • Tone • Dice • SIS</text>
+            <text x="90" y="76" fill="#9fb0c2" text-anchor="middle" font-size="12">(RPG‑Bot runtime)</text>
+
+            <rect x="220" y="0" width="180" height="110" rx="12" fill="#101621" stroke="url(#g1)"/>
+            <text x="310" y="30" fill="#cfe9ff" text-anchor="middle" font-size="16" font-weight="700">AUXILIARY</text>
+            <text x="310" y="56" fill="#9fb0c2" text-anchor="middle" font-size="12">World Canon: Nations, Factions,</text>
+            <text x="310" y="76" fill="#9fb0c2" text-anchor="middle" font-size="12">Religions, Geography, NPCs</text>
+
+            <rect x="440" y="0" width="180" height="110" rx="12" fill="#101621" stroke="url(#g1)"/>
+            <text x="530" y="30" fill="#cfe9ff" text-anchor="middle" font-size="16" font-weight="700">SAVE / LOAD</text>
+            <text x="530" y="56" fill="#9fb0c2" text-anchor="middle" font-size="12">Per‑session state, inventory,</text>
+            <text x="530" y="76" fill="#9fb0c2" text-anchor="middle" font-size="12">relationships, timers</text>
+
+            <!-- arrows -->
+            <path d="M 180 55 H 220" stroke="url(#g1)" stroke-width="2" marker-end="url(#arrow)"/>
+            <path d="M 400 55 H 440" stroke="url(#g1)" stroke-width="2" marker-end="url(#arrow)"/>
+            <path d="M 440 95 H 400" stroke="url(#g1)" stroke-width="2" marker-end="url(#arrow)"/>
+            <path d="M 220 95 H 180" stroke="url(#g1)" stroke-width="2" marker-end="url(#arrow)"/>
+
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="url(#g1)"/>
+              </marker>
+            </defs>
+
+            <text x="0" y="150" fill="#9fb0c2" font-size="12">File order discipline → <tspan fill="#cfe9ff">Game Prompt → Saves → Aux files</tspan></text>
+            <text x="0" y="170" fill="#9fb0c2" font-size="12">Scene Integrity System (SIS), Autosave, Manual Save, Long/Short‑term memory</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <hr class="hr"/>
+
+    <section id="how">
+      <h3 class="h2">How it works</h3>
+      <div class="grid">
+        <div class="card">
+          <div class="h3">1) Engine Prompt</div>
+          <p>The runtime “GM brain.” Defines rules, tone, dice handling, scene structure, stat systems (e.g., Realist Kingdom System), and the <em>Scene Integrity System</em> that prevents drift.</p>
+          <div class="code">// Engine Prompt — excerpt (redacted)
+// Defines: Roles, stats, headers, autosave hooks, safety rails
+// Example header enforced each scene:
+Scene State: { location, time, weather, present NPCs, privacy }
+Rules: { dice ops, XP, morality, relationship deltas }</div>
+        </div>
+        <div class="card">
+          <div class="h3">2) Auxiliary World Files</div>
+          <p>Canonical lore packs (nations, religions, geography, factions, NPC dossiers). Loaded <em>before</em> play so the model doesn’t invent or drift. Multiple tiers keep big worlds tidy.</p>
+          <div class="code">// Auxiliary (Tier I) — Cosmology & Structure
+Planet: Arden Fell — 32h day, 406‑day year, Aetherium veins
+Seas: Great Deep, Sea of Glass, Veiled Sea
+Climate: Equatorial archipelagos; polar aetheric auroras</div>
+        </div>
+        <div class="card">
+          <div class="h3">3) Save / Load Chain</div>
+          <p>Per‑session state snapshots: inventory, timers, flags, relationships, kingdom stats. Autosave at end‑of‑scene; manual saves on demand. Load restores canonical state.</p>
+          <div class="code">// Save File — minimal example
+Datetime: 2025‑10‑25 14:00 CDT
+Party: Ethan (+2), Liora (+1)
+Kingdom: Economy +1, Morale +2
+Flags: { caravan_marked: true, demon_general: at_large }
+Notes: Next scene opens at city gate.</div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="hr"/>
+
+    <section id="starter">
+      <h3 class="h2">Starter Kit</h3>
+      <p class="muted">A lightweight, personal‑use skeleton so you can try the pipeline. The full Arden Forge templates and advanced systems are available via license.</p>
+      <div class="grid2">
+        <div class="card">
+          <div class="h3">Download (personal use)</div>
+          <p>Includes: <strong>Engine Prompt (Lite)</strong>, <strong>Auxiliary Tier I skeleton</strong>, <strong>Save file template</strong>, and a <strong>ReadMe</strong> to load them in order.</p>
+          <p><a class="button" href="#" aria-disabled="true" title="Coming soon">Download ZIP</a></p>
+          <p class="muted">Want the full pro kit (RKS, SIS, multi‑campaign)? <a href="#contact">Contact me</a>.</p>
+        </div>
+        <div class="card">
+          <div class="h3">What’s not in the free kit</div>
+          <ul class="list">
+            <li>Full Realist Kingdom System v1.x</li>
+            <li>Advanced NPC secret protocol + romance flags</li>
+            <li>Autosave/Manual‑save macros and scene validators</li>
+            <li>Extended Auxiliary tiers (II–IV)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <hr class="hr"/>
+
+    <section id="docs">
+      <h3 class="h2">Docs (Quick)</h3>
+      <div class="grid2">
+        <div class="card">
+          <div class="h3">File order discipline</div>
+          <p>Always load in this order: <span class="kbd">Engine → Save(s) → Auxiliary</span>. For long campaigns, mount saves and auxiliaries one at a time to stay inside context limits.</p>
+          <div class="note">Tip: Use short, distinct section headers inside each file so you can reference them by name during play (“see: Aux‑Tier‑I, Climate Bands”).</div>
+        </div>
+        <div class="card">
+          <div class="h3">Continuity & Stability</div>
+          <p>The <em>Scene Integrity System</em> enforces a consistent header, dice transparency on request, and post‑scene autosave prompts. Manual saves can be triggered with a keyword.</p>
+          <div class="note">Private modules (licensed) add kingdom economics, faction reputation matrices, and conflict clocks.</div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="hr"/>
+
+    <section id="faq">
+      <h3 class="h2">FAQ</h3>
+      <div class="grid2">
+        <div class="card">
+          <div class="h3">Can I use this with free tools?</div>
+          <p>Yes. You can run the Lite kit with standard ChatGPT. Hosting a simple info site can be free via GitHub Pages or Google Sites; a custom domain is typically ~$10–20/yr.</p>
+        </div>
+        <div class="card">
+          <div class="h3">Will you teach everything for free?</div>
+          <p>The public docs explain the philosophy. The full architecture (advanced prompts, macros, and modules) is a paid license or custom build.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="hr"/>
+
+    <section id="contact">
+      <h3 class="h2">Work with me</h3>
+      <div class="grid2">
+        <div class="card">
+          <div class="h3">Custom Builds</div>
+          <p>Commission a tailored Engine + Aux world + Save pipeline for your setting (fantasy, sci‑fi, political sim, etc.). Optional: branding art, banners, and NPC icon sets.</p>
+          <p><a class="button" href="mailto:contact@example.com?subject=Arden%20Forge%20—%20Custom%20Build">Email Me</a></p>
+        </div>
+        <div class="card">
+          <div class="h3">Stay in the loop</div>
+          <p>Get updates when new modules drop (e.g., Realist Kingdom System v1.3, Romance Pack, Diplomacy Matrix).</p>
+          <p><a class="button" href="#" aria-disabled="true" title="Coming soon">Join Mailing List</a></p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div>© <span id="y"></span> Arden Forge — AI Dungeon Master Prompt System.</div>
+      <div class="muted">Made for storytellers who want persistence, stakes, and style.</div>
+    </footer>
+  </div>
+  <script>document.getElementById('y').textContent = new Date().getFullYear()</script>
+</body>
+</html>
