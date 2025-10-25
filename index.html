@@ -3,15 +3,26 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Arden Forge — AI Dungeon Master Prompt System | Modular RPG Engine for ChatGPT</title>
-  <meta name="description" content="Build persistent AI‑run RPGs with a modular prompt architecture: Engine Prompt + Auxiliary World Files + Save/Load chain. The Arden Forge framework keeps tone, lore, and NPCs consistent across sessions." />
+  <title>AIDM Forge — AI Dungeon Master Prompt System | Modular RPG Engine for ChatGPT</title>
+
+  <meta name="description" content="Build persistent AI-run RPGs with a modular prompt architecture: Engine Prompt + Auxiliary World Files + Save/Load chain. The AIDM Forge framework keeps tone, lore, and NPCs consistent across sessions." />
   <meta name="keywords" content="AI Dungeon Master, AI DM, ChatGPT DM Prompt, AI RPG Engine, AI Roleplay System, AI Worldbuilding, Lorebook, Save Game Prompt, Modular Prompt Architecture" />
-  <meta property="og:title" content="Arden Forge — AI Dungeon Master Prompt System" />
-  <meta property="og:description" content="Engine Prompt + Auxiliary World Files + Save/Load. A modular ChatGPT RPG framework for persistent, system‑driven campaigns." />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="AIDM Forge — AI Dungeon Master Prompt System" />
+  <meta property="og:description" content="Engine Prompt + Auxiliary World Files + Save/Load. A modular ChatGPT RPG framework for persistent, system-driven campaigns." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="/og-banner.png" />
+  <meta property="og:image" content="aidmforge-og.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="icon" href="/favicon.ico" />
+
+  <!-- Favicon (project-relative path for GitHub Pages) -->
+  <link rel="icon" href="favicon.ico" />
+
+  <!-- OPTIONAL: add after your custom domain is live
+  <link rel="canonical" href="https://aidmforge.com/">
+  <meta name="robots" content="index,follow">
+  -->
+
   <style>
     :root {
       --bg: #0b0f14; --panel: #0f1520; --card: #111827; --ink:#e6eef6; --muted:#9fb0c2; --accent:#7bdcff; --accent2:#b39cff; --ok:#6efacc; --warn:#ffd479;
@@ -24,13 +35,12 @@
     .wrap{max-width:1120px;margin:0 auto;padding:20px}
     .nav{display:flex;align-items:center;justify-content:space-between;padding:8px 0 6px}
     .brand{display:flex;gap:10px;align-items:center}
-  .brand .logo {
-  width:42px;
-  height:42px;
-  border-radius:9px;
-  background: url('aidmforge-logo.png') center/cover no-repeat;
-  box-shadow:0 8px 22px rgba(123,220,255,.25);
-}
+    /* Use the actual logo image */
+    .brand .logo{
+      width:42px;height:42px;border-radius:9px;
+      box-shadow:0 8px 22px rgba(123,220,255,.25);
+      object-fit:cover;display:block;
+    }
     .brand h1{margin:0;font-size:18px;letter-spacing:.2px}
     .tag{color:var(--muted);font-size:12px;margin-top:-2px}
     .button{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0b0f14;font-weight:800;padding:12px 16px;border-radius:12px;box-shadow:0 10px 28px rgba(123,220,255,.20);transition:transform .06s ease}
@@ -57,9 +67,17 @@
     .svgbox{background:#0b121b;border:1px solid rgba(255,255,255,.08);padding:14px;border-radius:12px}
     @media (max-width: 900px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
   </style>
+
+  <!-- Existing schema (good to keep) -->
   <script type='application/ld+json'>{
-    "@context":"https://schema.org","@type":"SoftwareApplication","name":"AIDM Forge — AI Dungeon Master Prompt System","applicationCategory":"DeveloperApplication","operatingSystem":"Web","description":"A modular prompt architecture for ChatGPT that runs persistent AI RPG campaigns using an Engine Prompt, Auxiliary World Files, and a Save/Load chain.","author":{"@type":"Person","name":"Stephan"}}
-  </script>
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"AIDM Forge — AI Dungeon Master Prompt System",
+    "applicationCategory":"DeveloperApplication",
+    "operatingSystem":"Web",
+    "description":"A modular prompt architecture for ChatGPT that runs persistent AI RPG campaigns using an Engine Prompt, Auxiliary World Files, and a Save/Load chain.",
+    "author":{"@type":"Person","name":"Stephan"}
+  }</script>
 </head>
 <body>
   <div class="wrap">
